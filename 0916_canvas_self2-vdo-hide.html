@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 2000px;
+        }
+
+        canvas {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+
+        canvas.active {
+            display: block;
+
+        }
+
+        div {
+            width: 600px;
+            height: 400px;
+        }
+        .vdo{
+            width: 100%; height: 100%;
+        }
+    </style>
+
+    <!-- ========================================== -->
+    <div>
+        <video class="vdo" autoplay muted loop>
+            <source src="../img/sky.mp4">
+            <type="video/mp4">
+        </video>
+    </div>
+    <canvas id="canvas" width="300" height="200"></canvas>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d');
+        var cw = canvas.width;
+        var ch = canvas.height;
+        var vdo = document.querySelector('video');
+
+        function render() {
+            ctx.drawImage(vdo, 0, 0, cw, ch);
+            requestAnimationFrame(render);
+        }
+
+        vdo.addEventListener('click', funPlay);
+        function funPlay() {
+            vdo.paused ? vdo.play() : vdo.pause();
+        }
+
+
+        var winH = window.innerHeight;
+        var vdoH = vdo.offsetHeight;
+        //console.log(vdoH);
+
+        window.addEventListener('scroll', hideVdo);
+        function hideVdo(e) {
+            if(!vdo.paused){
+                if (vdoH <= this.scrollY) {
+                    //console.log('뿅');
+                    canvas.classList.add('active');
+                    render();
+                } else {
+                    canvas.classList.remove('active');
+                }
+            }
+
+        }
+
+    </script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+    <style>
+        #canvas {
+            border: 1px solid #f0f;
+            width: 1400px;
+            height: 400px;
+        }
+    </style>
+
+    <canvas id="canvas" width="2800" height="800"></canvas>
+
+
+    <script>
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d');
+        var cw = canvas.width;
+        var ch = canvas.height;
+        //=== text style ===
+        ctx.font = '80px serif';
+        ctx.textAlign = 'center';//start,end,left,right,center
+        ctx.textBaseline = 'middle';
+
+
+        // === 프로그레스 바 ===
+        function draw(x, y, r, pst, end) {
+
+            pst++;
+            ctx.clearRect(x-100, y-100, 200, 200); //지우고자 하는 영역을 정해서 지움.
+            ctx.beginPath();
+            ctx.lineWidth = 30;
+            ctx.arc(x, y, r, 0, ((Math.PI * 2) * pst) / 100, false);
+            ctx.stroke();
+            ctx.fillText(pst + '%', x, y);
+
+            if (pst <= end) {
+
+                requestAnimationFrame(function() {
+                    draw(x, y, r, pst, end);
+                });
+            }
+
+        }
+        draw(cw / 6, ch / 2, ch / 3, 0, 96);
+        draw(cw / 2, ch / 2, ch / 3, 0, 60);
+        draw(cw-(cw/6), ch / 2, ch / 3, 0, 80);
+
+
+    </script>
+
+
+
+</body>
+
+</html>

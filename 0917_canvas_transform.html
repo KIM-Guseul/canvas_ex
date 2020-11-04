@@ -1,0 +1,78 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {background: #eee;}
+    </style>
+
+    <!-- ========================================== -->
+    <div>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width,
+            ch = canvas.height;
+
+            function draw(x,y){
+
+                //ctx.beginPath();
+
+                //ctx.save();//====== translate 전 상태 저장
+
+                ctx.setTransform(1,0,0,1,0,0); //변형값 초기화. 함수를 여러번 실행할 때
+
+                ctx.translate(100,100);
+
+                ctx.strokeStyle = '#ff8c94';
+                ctx.strokeRect(x,y,50,50);
+
+                //=== 확대 ===
+
+                ctx.scale(1.5,1.5);
+                ctx.strokeStyle = '#ede868';
+                ctx.strokeRect(x,y,50,50);
+
+                //=== 회전 ===
+                ctx.rotate(Math.PI/180*45);
+                ctx.strokeStyle = '#86dfd8';
+                ctx.strokeRect(x,y,50,50);
+
+                //ctx.restore();//===== 저장했던 translate 전 상태 다시 불러오기
+
+            }
+
+            draw(0,0);
+
+            draw(10,10);
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>

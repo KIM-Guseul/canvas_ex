@@ -1,0 +1,104 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-video</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+    </style>
+
+    <!-- ========================================== -->
+
+    <div class="container">
+        <canvas id="canvas" width="800" height="200"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d');
+        var cw = canvas.width;
+        var ch = canvas.height;
+
+        var img = new Image();
+        img.src = '../img/park.jpg';
+        img.addEventListener('load',function(){draw('좌')});
+
+        var imgW, imgH, x = 0;
+        imgW = img.width;
+        imgH = img.height;
+        var rq;
+
+        function draw(p) {
+
+            cancelAnimationFrame(rq);
+            ctx.clearRect(0, 0, cw, ch);
+
+            if(p=='우'){
+                if(x > cw) x = cw - imgW;
+                //첫번째 이미지가 캔버스 영역에서 완전히 벗어났을 때
+                x+=4;
+            }else{
+                if(x < -imgW) x = 0;
+                x-=4;
+            }
+
+            if(x < imgW-cw) ctx.drawImage(img,imgW+x,0,imgW,imgH);
+            if(x > cw-imgW) ctx.drawImage(img,-imgW+x,0,imgW,imgH);
+
+            ctx.drawImage(img,x,0,imgW,imgH);
+            rq = requestAnimationFrame(function(){draw(p)});
+        }
+
+        canvas.addEventListener('click', move);
+        function move(e) {
+            var posClick = e.layerX;
+
+            if (posClick > cw / 2) {//오른쪽 클릭
+                draw('우');
+            } else {//왼쪽 클릭
+                draw('좌');
+            }
+        }
+
+
+
+        // function clickR(){
+        //     x--;
+        //     ctx.clearRect(0,0,cw,ch);
+        //     ctx.drawImage(img,x,0,imgW,imgH);
+        //     ctx.drawImage(img,x+imgW,0,imgW,imgH);
+        //     requestAnimationFrame(draw);
+        // }
+        // function clickL(){
+        //     x++;
+        //     ctx.clearRect(0,0,cw,ch);
+        //     ctx.drawImage(img,x,0,imgW,imgH);
+        //     ctx.drawImage(img,x-imgW,0,imgW,imgH);
+        //     requestAnimationFrame(draw);
+        // }
+
+    </script>
+
+    <div style="height:1000px;"></div>
+
+
+
+</body>
+
+</html>

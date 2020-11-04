@@ -1,0 +1,109 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {
+            background: #eee;
+        }
+    </style>
+
+    <!-- ========================================== -->
+
+    <canvas></canvas>
+
+    <!-- ========================================== -->
+
+    <script>
+
+        var canvas = document.querySelector('canvas'),
+            ctx = canvas.getContext('2d'),
+            cw,
+            ch;
+
+        // ====== 함수의 객체화 ======
+        var items = [],
+            ea=30;
+
+        function drawCircle(){
+            this.cx = cw/2;
+            this.cy = ch/2;
+            this.cr = Math.random()* 30 + 10;
+            this.dx = Math.random()* Math.PI *2;
+            this.dy = Math.random()* Math.PI *2;
+            this.color = "rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+")";
+        }
+
+        // drawCircle.prototype.update = function(){} : 하나의 매소드 생성할 때
+
+        //여러개의 매소드 생성 할 때 :
+        drawCircle.prototype = {
+            update:function(){
+                this.cx += Math.cos(this.dx) *10;
+                this.cy += Math.sin(this.dy) *10;
+
+                //=== 캔버스에서 핑퐁 ===
+                if(this.cx + this.cr < 0 || this.cx + this.cr > cw || this.cy + this.cr < 0 || this.cy + this.cr > ch){
+                    this.dx += -1;
+                    this.dy += -1;
+                }
+            }
+        }
+
+        function createItem(){
+            for(var i=0; i<20; i++){// ===20개의 원 생성 ===
+                items.push(new drawCircle());
+            }
+        }// ====== 함수의 객체화 ======
+
+
+        //===== 화면에 원 뿌리기
+        function draw(){
+            ctx.globalAlpha = .9; //opacity
+
+            items.forEach(function(i){
+                ctx.beginPath();
+                ctx.fillStyle = i.color;
+                ctx.arc(i.cx,i.cy,i.cr,0,Math.PI*2);
+                ctx.fill();
+                i.update();
+            });
+        }
+
+        function init(){
+            canvas.width = window.innerWidth;
+            canvas.height= window.innerHeight;
+            cw = window.innerWidth;
+            ch = window.innerHeight;
+
+            draw();
+            requestAnimationFrame(init);
+        }
+        init();
+
+        createItem();
+        canvas.addEventListener('click',createItem);
+
+
+    </script>
+
+
+
+</body>
+
+</html>

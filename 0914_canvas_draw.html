@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="export" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+    <style>
+    #canvas{
+        border: 1px solid #f0f;
+        width: 500px; height: 300px;
+    }
+    </style>
+
+
+    <canvas id="canvas" width="1000" height="600"></canvas>
+
+
+    <script>
+    var canvas = document.querySelector('#canvas');
+    var ctx = canvas.getContext('2d'); //getContext 캔버스를 쓰기위해 필수
+    //사각형
+    ctx.fillStyle = 'red'; //색상을 미리 지정해야해
+    ctx.fillRect(100,100,150,150);
+
+    //원
+    ctx.arc(250,250,50,0,Math.PI*2,false);
+    //x값,y값,반지름,시작점,끝점: 파이값 이용,방향(f:시계 t:반시계)
+    ctx.stroke(); //선으로 표현 ctx.fill(); 면으로 표현
+
+    ctx.beginPath(); // 그림 시작하기 위한 명령
+    ctx.moveTo(0,10); // 붓 위치 지정. 없으면 이전 그림이 끝나는 지점에서 시작
+    ctx.lineTo(300,0); //라인 시작점
+    ctx.lineTo(400,100); //라인 끝점
+    ctx.stroke();// 선 표현
+    ctx.closePath(); //생략해도 되기는 해
+
+    </script>
+
+
+
+</body>
+
+</html>

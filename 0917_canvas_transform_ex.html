@@ -1,0 +1,70 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {background: #eee;}
+    </style>
+
+    <!-- ========================================== -->
+    <div>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width,
+            ch = canvas.height;
+
+        var size = 1,
+            deg = Math.PI/180;
+
+
+            function draw(x,y){
+
+                ctx.save();//==========
+                    ctx.translate(200,200);
+                    ctx.scale(size,size);
+                    ctx.rotate(deg);
+
+                    ctx.strokeStyle = '#ff8c94';
+                    ctx.strokeRect(-25,-25,50,50);
+                ctx.restore();//==========
+
+                size += 0.2;
+                deg += 0.2;
+                requestAnimationFrame(draw);
+
+            }
+
+            draw();
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-video</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+    </style>
+
+    <!-- ========================================== -->
+
+    <div class="container">
+        <canvas id="canvas" width="800" height="200"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d');
+        var cw = canvas.width;
+        var ch = canvas.height;
+
+        var grd = ctx. createLinearGradient(0,0,200,0);
+        // (x0, y0, x1, y1) 색상이 들어갈 범위. 0:시작점 1:끝점. 기준:canvas 전체
+
+        grd.addColorStop(0,'#f00'); // x
+        grd.addColorStop(1,'#00f'); // x1
+
+        ctx.fillStyle = grd;
+        ctx.fillRect(0,50,200,100);
+
+
+        var grd = ctx. createLinearGradient(0,50,0,150);
+
+        grd.addColorStop(0,'#f00');
+        grd.addColorStop(0.5,'#0f0');
+        grd.addColorStop(1,'#00f');
+
+        ctx.strokeStyle = grd;
+        ctx.lineWidth = 10;
+        ctx.strokeRect(250,50,200,100);
+
+
+
+    </script>
+
+    <div style="height:1000px;"></div>
+
+
+
+</body>
+
+</html>

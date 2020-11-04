@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {background: #eee;}
+    </style>
+
+    <!-- ========================================== -->
+    <div>
+        <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width,
+            ch = canvas.height;
+
+        var x = 100,
+            y,
+            data = [
+                [80,40,90,100],
+                [20,90,40,60],
+                [60,10,70,30]
+            ],
+            color = ['#ff8c94','#ede868','#86dfd8'];
+
+            function draw(){
+
+                //===== 점 표시 =====
+                data.forEach(function(value, key){//== 데이터 반복문
+
+                    ctx.fillStyle = color[key];
+
+                    value.forEach(function(point){//== 점수 반복문
+
+                        y = ch - (point * ch / 100);
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, 5, 0, Math.PI*2);
+                        ctx.fill();
+
+                        x += 100;
+                    });
+
+                    x = 100;
+                });
+
+                //===== 선 표시 =====
+                data.forEach(function(value, key){
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = color[key];
+
+                    value.forEach(function(point){
+
+                        y = ch-(point * ch/100);
+                        ctx.lineTo(x,y);
+                        ctx.stroke();
+
+                        x +=100;
+                    });
+
+                    x = 100;
+                });
+
+            }
+
+            draw();
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>

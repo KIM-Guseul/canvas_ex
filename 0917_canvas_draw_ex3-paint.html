@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {
+            display: block; /*canvas = inline 요소*/
+            background: #eee;
+        }
+    </style>
+
+    <!-- ========================================== -->
+    <select id = "line">
+        <option value = "3">strock 3</option>
+        <option value = "6">strock 6</option>
+        <option value = "9">strock 9</option>
+        <option value = "12">strock 12</option>
+        <option value = "15">strock 15</option>
+    </select>
+
+    <input type="color" id="color">
+    <button id ="btn">저장</button>
+
+    <div>
+        <canvas id="canvas" width="1200" height="800"></canvas>
+    </div>
+
+    <div id ="result"></div>
+
+    <!-- ========================================== -->
+
+    <script>
+
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width,
+            ch = canvas.height;
+
+            canvas.addEventListener('mousedown',mDowm);
+            canvas.addEventListener('mouseup',mUp);
+            canvas.addEventListener('mousemove',mMove);
+
+            var state = false;
+
+            function mDowm(e){
+                var lineStyle = line.value;
+                var colorStyle = color.value;
+
+                state = true;
+
+                ctx.beginPath();
+
+                ctx.lineWidth = lineStyle;
+                ctx.strokeStyle = colorStyle;
+
+                ctx.moveTo(e.clientX,e.clientY - 25);
+            }
+
+            function mUp(){
+                state = false;
+            }
+
+            function mMove(e){
+                if(state){
+                ctx.lineTo(e.clientX,e.clientY - 25);
+                ctx.stroke();
+                }
+            }
+
+            btn.addEventListener('click',function(){
+                var saveCanvas = canvas.toDataURL('image.png');
+                var screen = new Image();
+                screen.src = saveCanvas;
+                result.append(screen);
+
+            });
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>

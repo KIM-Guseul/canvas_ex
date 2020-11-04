@@ -1,0 +1,87 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+    <style>
+        #canvas {
+            border: 1px solid #f0f;
+            width: 500px;
+            height: 300px;
+        }
+    </style>
+
+    <canvas id="canvas" width="1000" height="600"></canvas>
+
+
+    <script> //바닐라만 이용
+    
+        var canvas = document.querySelector('#canvas');
+        var ctx = canvas.getContext('2d');
+        var cw = canvas.width; //가져와서 쓸 수 있어. 위치점 잡을 때 편해
+        var ch = canvas.height;
+
+        // ctx.arc(cw / 2, ch / 2, ch * 0.4, 0, Math.PI * 2, false);
+        // ctx.lineWidth = 10;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.arc((cw / 2) * 0.8, (ch / 2) * 0.8, ch * 0.05, 0, Math.PI * 2, false);
+        // ctx.lineWidth = 10;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.arc((cw / 2) * 1.2, (ch / 2) * 0.8, ch * 0.05, 0, Math.PI * 2, false);
+        // ctx.lineWidth = 10;
+        // ctx.stroke();
+
+
+        //var deg = 0;
+
+        function draw(x, y, r, f, deg) { //명령d에 인자값으로 보내주고 인자값을 받아서 실행
+            deg += 6;
+
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI / 180 * deg, false);
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            if (deg < f) {
+                //draw(); //재귀함수. 본인안에서 본인을 재호출
+                requestAnimationFrame(function() {
+                    draw(x, y, r, f, deg)
+                });
+            }
+        }
+
+        draw(cw / 2, ch / 2, ch * 0.4, 360, 0);
+        setTimeout(function() {
+
+            draw((cw / 2) * 0.8, (ch / 2) * 0.8, ch * 0.05, 360, 0);
+        }, 100);
+
+        setTimeout(function() {
+
+            draw((cw / 2) * 1.2, (ch / 2) * 0.8, ch * 0.05, 360, 0);
+        }, 300);
+
+        setTimeout(function() {
+            draw(cw / 2, ch / 2, ch * 0.3, 180, 0);
+        }, 500);
+    </script>
+
+
+
+</body>
+
+</html>

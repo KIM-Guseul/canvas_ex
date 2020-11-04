@@ -1,0 +1,166 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            background: #eee;
+        }
+    </style>
+
+    <!-- ========================================== -->
+    <div>
+        <canvas id="canvas" width="800" height="800"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width,
+            ch = canvas.height;
+        var img = new Image(),
+            imgItem = new Image(),
+
+            x = cw / 2,
+            y = ch / 2,
+            dx = 30,
+            imgW, imgH,
+            count = 0;
+
+        img.src = '../img/ghost.png';
+        imgItem.src = '../img/heart.png';
+
+        img.addEventListener('load', draw);
+        window.addEventListener('keydown', keyDown);
+        window.addEventListener('keyup', keyUp);
+
+        //========== 캐릭터 이동
+        function keyDown(e) {
+            //console.log(e.key);
+
+            if (e.key == 'ArrowRight' && x + imgW < cw) {
+                x += dx;
+            } else if (e.key == 'ArrowLeft' && x > 0) {
+                x -= dx;
+            }
+            if (e.key == 'ArrowUp' && y > 0) {
+                y -= dx;
+            } else if (e.key == 'ArrowDown' && y + imgH < ch) {
+                y += dx;
+            }
+            draw();
+        }
+
+        //========== 점수 기록
+        function keyUp() {
+
+            var ix,iy;
+
+            for (var i = 0; i < 10; i++) {
+                ix = items[i].x + 30;
+                iy = items[i].y + 30;
+                if((items[i].x < x && ix > x) && (items[i].y < y && iy > y)){
+                    count += 10;
+                }
+            }
+            draw();
+        }
+
+        //========== 화면 출력
+        function draw() {
+            imgW = img.width;
+            imgH = img.height;
+
+            ctx.clearRect(0, 0, cw, ch);
+
+            // === 10개의 배열에 랜덤수 주기
+            for (var i = 0; i < 10; i++) {
+                items[i];
+                items[i].fun();
+
+                ctx.fillStyle = '#f00';
+                ctx.fillRect(items[i].x, items[i].y, items[i].s, items[i].s);
+                //ctx.drawImage(imgItem, items[i].x, items[i].y, items[i].s, items[i].s);
+            }
+
+            avg();
+            // === 캐릭터 출력
+            ctx.drawImage(img, x, y);
+
+        }
+
+        // === 점수 출력
+        function avg() {
+            ctx.beginPath();
+            ctx.fillStyle = '#00f';
+            ctx.font = '40px serif';
+            ctx.fillText('point : ' + count, 20, 50);
+        }
+
+        //========== 아이템 생성
+        function item(size) { //this = item
+            this.x = Math.random() * cw;
+            this.y = Math.random() * ch;
+            this.s = size;
+            //key = value
+            // 1. 만들고자 하는 변수의 윤곽만 잡아놓고
+        }
+
+        //========== 아이템 캔버스 내 좌표 설정
+        item.prototype.fun = function() { //this = item
+            if (this.x <= 0) {
+                this.x = 0
+            } else if (this.x + 30 >= cw) {
+                this.x = cw - 30;
+            };
+            if (this.s <= 0) {
+                this.s = 0
+            } else if (this.y + 30 >= ch) {
+                this.y = ch - 30;
+            };
+        }
+
+        //var items = new item(30);
+        // 2. 외부에서 변수 이용하면 무한대로 변수값 이용 가능
+        //함수의 객체화. 함수안에서 만들어진 값 외부에서 사용o.
+        //변수 갯수만큼 값을 각각 가져올 수 있어
+
+        // var item = {
+        //     x = Math.random()*cw;
+        //     y = Math.random()*ch;
+        //     s = 40;
+        // } //이거랑 똑같아
+
+        //========== 아이템 등록
+        var items = new Array();
+        for (var i = 0; i < 10; i++) {
+            items.push(new item(30));
+        }
+        console.log(items);
+    </script>
+
+
+
+
+</body>
+
+</html>

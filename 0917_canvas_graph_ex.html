@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="export" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Cascading grid layout library">
+    <title>Canvas-test</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <style>
+        html,
+        body {margin: 0;}
+
+        canvas {background: #eee;}
+        .grade input{display: block;}
+    </style>
+
+    <!-- ========================================== -->
+    <div class="grade">
+        <input type="text" name="kor" placeholder="kor" >
+        <input type="text" name="eng" placeholder="eng" >
+        <input type="text" name="math" placeholder="math" >
+        <input type="text" name="art" placeholder="art" >
+        <input type="submit" name="ok">
+    </div>
+    
+    <div>
+        <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
+
+    <!-- ========================================== -->
+
+    <script>
+
+        var canvas = document.querySelector('#canvas'),
+            ctx = canvas.getContext('2d'),
+            cw = canvas.width-40,
+            ch = canvas.height-40;
+
+        var kor = document.querySelector('input[name=kor]'),
+            eng = document.querySelector('input[name=eng]'),
+            math = document.querySelector('input[name=math]'),
+            art = document.querySelector('input[name=art]'),
+            btn = document.querySelector('input[name=ok]');
+
+        var x = 0 ,
+            y = 0 ,
+            data = [
+                [80,40,90,100],
+                [20,90,40,60],
+                [60,10,70,30]
+            ],
+            color = ['#ff8c94','#ede868','#86dfd8'];
+
+
+            function draw(){
+
+                ctx.translate(20,20);
+
+                function chart(){
+
+                    for (var i = 0; i <= 10; i++) {
+                        //=== y축 ===
+                        ctx.beginPath();
+                        ctx.lineTo( (cw/5)*i, ch );
+                        ctx.lineTo( (cw/5)*i, 0 );
+                        ctx.strokeStyle = '#fff';
+                        ctx.stroke();
+                        //=== x축 ===
+                        ctx.beginPath();
+                        ctx.lineTo( 0, (ch/10)*i);
+                        ctx.lineTo( cw, (ch/10)*i);
+                        ctx.strokeStyle = '#fff';
+                        ctx.stroke();
+                    }
+                    //=== y축 ===
+                    ctx.beginPath();
+                    ctx.lineTo( x, ch-y );
+                    ctx.lineTo( y, y );
+                    ctx.strokeStyle = '#000';
+                    ctx.stroke();
+                    //=== x축 ===
+                    ctx.beginPath();
+                    ctx.lineTo( x, ch-y );
+                    ctx.lineTo( cw-x, ch-y );
+                    ctx.strokeStyle = '#000';
+                    ctx.stroke();
+                }
+                chart();
+
+                //===== 점수 표시 =====
+                data.forEach(function(value, key){//== 데이터 반복문
+
+                    ctx.fillStyle = color[key];
+
+                    value.forEach(function(point){//== 점수 반복문
+                        ctx.beginPath();
+
+                        y = ch - (point * ch / 100);
+                        ctx.arc(x, y, 5, 0, Math.PI*2);
+                        ctx.fill();
+
+                        x += cw/5;
+
+                    });
+
+                    x = cw/5;
+                });
+
+                //===== 선 표시 =====
+                data.forEach(function(value, key){
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = color[key];
+
+                    value.forEach(function(point){
+
+                        y = ch-(point * ch/100);
+                        ctx.lineTo(x,y);
+                        ctx.stroke();
+
+                        x +=cw/5;
+                    });
+
+                    x = cw/5;
+                });
+
+            }
+
+            draw();
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>
